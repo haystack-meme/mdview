@@ -1,0 +1,105 @@
+{
+  "name": "mdview",
+  "productName": "mdview",
+  "desktopName": "mdview.desktop",
+  "version": "0.1.0",
+  "description": "A clean Markdown viewer and editor for the Linux desktop",
+  "license": "MIT",
+  "author": {
+    "name": "haystack-meme",
+    "email": "122596821+haystack-meme@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/haystack-meme/mdview",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haystack-meme/mdview.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haystack-meme/mdview/issues"
+  },
+  "keywords": [
+    "markdown",
+    "viewer",
+    "editor",
+    "electron",
+    "linux",
+    "wysiwyg"
+  ],
+  "private": true,
+  "main": "dist/main/main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.main.json && tsc -p tsconfig.json && vite build",
+    "start": "npm run build && electron .",
+    "typecheck": "tsc -p tsconfig.main.json --noEmit && tsc -p tsconfig.json",
+    "fix-sandbox": "sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox",
+    "dist": "npm run build && electron-builder --linux",
+    "render-icon": "electron scripts/render-icon.cjs"
+  },
+  "build": {
+    "appId": "io.github.haystack_meme.mdview",
+    "productName": "mdview",
+    "files": [
+      "dist/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "tar.gz"
+      ],
+      "category": "Office;TextEditor",
+      "icon": "build/icon.png",
+      "synopsis": "Markdown viewer and editor",
+      "executableName": "mdview",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "mimeTypes": [
+        "text/markdown",
+        "text/x-markdown"
+      ],
+      "desktop": {
+        "entry": {
+          "Keywords": "markdown;md;viewer;editor;"
+        }
+      },
+      "syncDesktopName": true
+    },
+    "fileAssociations": [
+      {
+        "ext": [
+          "md",
+          "markdown",
+          "mdown",
+          "mkd",
+          "mkdn"
+        ],
+        "name": "Markdown document",
+        "mimeType": "text/markdown",
+        "role": "Editor"
+      }
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "haystack-meme",
+      "repo": "mdview",
+      "releaseType": "release"
+    }
+  },
+  "devDependencies": {
+    "@milkdown/crepe": "^7.23.0",
+    "@milkdown/kit": "^7.23.0",
+    "@types/node": "^26.6.11",
+    "dompurify": "^3.5.0",
+    "electron": "^45.5.0",
+    "electron-builder": "^26.18.0",
+    "highlight.js": "^11.12.0",
+    "marked": "^18.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.4.0"
+  }
+}

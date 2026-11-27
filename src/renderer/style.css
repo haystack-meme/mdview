@@ -1,0 +1,342 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #59636e;
+  --border: #d1d9e0;
+  --bar-bg: #f6f8fa;
+  --code-bg: #f6f8fa;
+  --link: #0969da;
+  --accent: #0969da;
+  --accent-fg: #ffffff;
+  --quote: #59636e;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #9198a1;
+    --border: #3d444d;
+    --bar-bg: #151b23;
+    --code-bg: #151b23;
+    --link: #4493f8;
+    --accent: #4493f8;
+    --accent-fg: #0d1117;
+    --quote: #9198a1;
+    color-scheme: dark;
+  }
+
+  /* Milkdown "frame-dark" colours */
+  .milkdown {
+    --crepe-color-background: #0d1117;
+    --crepe-color-on-background: #e6e6e6;
+    --crepe-color-surface: #121212;
+    --crepe-color-surface-low: #1c1c1c;
+    --crepe-color-on-surface: #d1d1d1;
+    --crepe-color-on-surface-variant: #a9a9a9;
+    --crepe-color-outline: #757575;
+    --crepe-color-primary: #b5b5b5;
+    --crepe-color-secondary: #4d4d4d;
+    --crepe-color-on-secondary: #d6d6d6;
+    --crepe-color-inverse: #e5e5e5;
+    --crepe-color-on-inverse: #2a2a2a;
+    --crepe-color-inline-code: #ff6666;
+    --crepe-color-error: #ff6666;
+    --crepe-color-hover: #232323;
+    --crepe-color-selected: #2f2f2f;
+    --crepe-color-inline-area: #2b2b2b;
+    --crepe-shadow-1: 0px 1px 2px 0px rgba(255, 255, 255, 0.3), 0px 1px 3px 1px rgba(255, 255, 255, 0.15);
+    --crepe-shadow-2: 0px 1px 2px 0px rgba(255, 255, 255, 0.3), 0px 2px 6px 2px rgba(255, 255, 255, 0.15);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, 'Noto Sans', 'Cantarell', 'Ubuntu', sans-serif;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- top bar ---------- */
+
+#bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: var(--bar-bg);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  flex: none;
+  user-select: none;
+}
+
+#filename {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#dirty {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+#edit-controls {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--muted);
+}
+
+button.active,
+#btn-save {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.seg {
+  display: flex;
+}
+
+.seg button {
+  border-radius: 0;
+}
+
+.seg button:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.seg button:last-child {
+  border-radius: 0 6px 6px 0;
+  border-left: none;
+}
+
+/* ---------- content ---------- */
+
+#scroller {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.markdown-body,
+.editor-wrap {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.editor-wrap {
+  flex: 1;
+}
+
+.editor-wrap .milkdown {
+  background: var(--bg);
+}
+
+.editor-wrap .milkdown .ProseMirror {
+  padding: 32px 60px 120px;
+}
+
+#plain {
+  flex: 1;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.6 'JetBrains Mono', 'Fira Code', 'DejaVu Sans Mono', monospace;
+  tab-size: 2;
+}
+
+/* ---------- rendered markdown ---------- */
+
+.markdown-body {
+  padding: 32px 40px 120px;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin: 24px 0 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--border);
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--border);
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: 0.875em;
+}
+
+.markdown-body h6 {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body table,
+.markdown-body pre {
+  margin: 0 0 16px;
+}
+
+.markdown-body a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body li + li {
+  margin-top: 0.25em;
+}
+
+.markdown-body li:has(> input[type='checkbox']) {
+  list-style: none;
+}
+
+.markdown-body li > input[type='checkbox'] {
+  margin: 0 0.4em 0.2em -1.4em;
+  vertical-align: middle;
+}
+
+.markdown-body blockquote {
+  padding: 0 1em;
+  color: var(--quote);
+  border-left: 0.25em solid var(--border);
+}
+
+.markdown-body code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'DejaVu Sans Mono', monospace;
+  font-size: 85%;
+  padding: 0.2em 0.4em;
+  background: var(--code-bg);
+  border-radius: 6px;
+}
+
+.markdown-body pre {
+  background: var(--code-bg);
+  border-radius: 6px;
+  overflow: auto;
+}
+
+.markdown-body pre code,
+.markdown-body pre code.hljs {
+  display: block;
+  padding: 16px;
+  font-size: 85%;
+  line-height: 1.45;
+  background: transparent;
+  border-radius: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.markdown-body th,
+.markdown-body td {
+  padding: 6px 13px;
+  border: 1px solid var(--border);
+}
+
+.markdown-body th {
+  font-weight: 600;
+}
+
+.markdown-body tr:nth-child(2n) {
+  background: var(--code-bg);
+}
+
+.markdown-body img {
+  max-width: 100%;
+}
+
+.markdown-body hr {
+  height: 0.25em;
+  margin: 24px 0;
+  border: 0;
+  background: var(--border);
+}

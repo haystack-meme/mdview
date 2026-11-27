@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' file: data: https: http:; font-src 'self' data:"
+    />
+    <title>mdview</title>
+  </head>
+  <body>
+    <header id="bar">
+      <span id="filename"></span>
+      <span id="dirty" title="Unsaved changes" hidden>●</span>
+      <span class="spacer"></span>
+      <div id="edit-controls" hidden>
+        <div class="seg" role="group" aria-label="Editor">
+          <button id="btn-rich" title="Rich text editor (Ctrl+1)">Rich text</button>
+          <button id="btn-plain" title="Plain text editor (Ctrl+2)">Plain text</button>
+        </div>
+        <button id="btn-save" title="Save (Ctrl+S)">Save</button>
+      </div>
+      <button id="btn-edit" title="Toggle edit mode (Ctrl+E)">Edit</button>
+    </header>
+    <main id="scroller">
+      <article id="view" class="markdown-body"></article>
+      <div id="rich" class="editor-wrap" hidden></div>
+      <textarea id="plain" spellcheck="false" hidden></textarea>
+    </main>
+    <script type="module" src="./renderer.ts"></script>
+  </body>
+</html>
